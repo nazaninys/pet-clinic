@@ -8,24 +8,26 @@ import org.springframework.samples.petclinic.owner.PetRepository;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-	import java.util.Date;
-	import java.util.Map;
-	import java.util.concurrent.ConcurrentHashMap;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *
  * @author Vivekananthan M
  */
 @Component
 public class PetTimedCache {
 
 	private final static Logger log = LoggerFactory.getLogger(PetTimedCache.class);
+
 	private final PetRepository repository;
 
 	private Map<Integer, Long> timeMap = new ConcurrentHashMap<Integer, Long>();
+
 	private Map<Integer, Pet> actualMap = new ConcurrentHashMap<Integer, Pet>();
 
 	private long expiryInMillis = 10000;
+
 	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("hh:mm:ss:SSS");
 
 	@Autowired
@@ -54,13 +56,14 @@ public class PetTimedCache {
 	}
 
 	public Pet get(Integer key) {
-		if(actualMap.containsKey(key)) {
+		if (actualMap.containsKey(key)) {
 			log.info("cache hit");
 			return actualMap.get(key);
-		} else {
+		}
+		else {
 			log.info("cache miss");
 			Pet pet = repository.findById(key);
-			if(pet != null) {
+			if (pet != null) {
 				put(pet);
 			}
 			return pet;
@@ -72,6 +75,7 @@ public class PetTimedCache {
 	}
 
 	class CleanerThread extends Thread {
+
 		@Override
 		public void run() {
 			log.info("Initiating Cleaner Thread...");
@@ -79,7 +83,8 @@ public class PetTimedCache {
 				cleanMap();
 				try {
 					Thread.sleep(expiryInMillis / 2);
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
@@ -95,5 +100,7 @@ public class PetTimedCache {
 				}
 			}
 		}
+
 	}
+
 }

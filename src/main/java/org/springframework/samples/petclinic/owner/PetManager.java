@@ -21,10 +21,7 @@ public class PetManager {
 	private final Logger log;
 
 	@Autowired
-	public PetManager(
-		PetTimedCache pets,
-		OwnerRepository owners,
-		Logger criticalLogger) {
+	public PetManager(PetTimedCache pets, OwnerRepository owners, Logger criticalLogger) {
 		this.pets = pets;
 		this.owners = owners;
 		this.log = criticalLogger;
@@ -64,7 +61,7 @@ public class PetManager {
 		log.info("finding the owner's petTypes by id {}", ownerId);
 		Owner owner = findOwner(ownerId);
 		Set<PetType> petTypes = new HashSet<>();
-		for (Pet pet: owner.getPets()) {
+		for (Pet pet : owner.getPets()) {
 			petTypes.add(pet.getType());
 		}
 		return petTypes;

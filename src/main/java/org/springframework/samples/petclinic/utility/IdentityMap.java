@@ -1,4 +1,5 @@
 package org.springframework.samples.petclinic.utility;
+
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import java.util.*;
@@ -6,14 +7,14 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
- * This is a utility class to provide a sortable map
- * for more information see https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html
+ * This is a utility class to provide a sortable map for more information see
+ * https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html
  */
 public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity> {
 
 	private ArrayList<Entity> entities = new ArrayList<>();
-	private Set<Integer> ids = new HashSet<>();
 
+	private Set<Integer> ids = new HashSet<>();
 
 	@Override
 	public int size() {
@@ -27,9 +28,10 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 
 	@Override
 	public boolean contains(Object o) {
-		if(o instanceof BaseEntity) {
+		if (o instanceof BaseEntity) {
 			return ids.contains(((BaseEntity) o).getId());
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -51,10 +53,11 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 
 	@Override
 	public boolean add(Entity entity) {
-		if(!ids.contains(entity)) {
+		if (!ids.contains(entity)) {
 			ids.add(entity.getId());
 			entities.add(entity);
-		} else {
+		}
+		else {
 			entities.removeIf(entity::sameId);
 			this.add(entity);
 		}
@@ -63,8 +66,8 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 
 	@Override
 	public boolean remove(Object object) {
-		if(object instanceof BaseEntity) {
-			if(ids.remove(((BaseEntity) object).getId())) {
+		if (object instanceof BaseEntity) {
+			if (ids.remove(((BaseEntity) object).getId())) {
 				return entities.removeIf(((BaseEntity) object)::sameId);
 			}
 		}
@@ -73,8 +76,8 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 
 	@Override
 	public boolean containsAll(Collection<?> collection) {
-		for(Object object: collection) {
-			if(!contains(object))
+		for (Object object : collection) {
+			if (!contains(object))
 				return false;
 		}
 		return true;
@@ -83,7 +86,7 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 	@Override
 	public boolean addAll(Collection<? extends Entity> collection) {
 		boolean collectionChaged = false;
-		for(Entity entity: collection) {
+		for (Entity entity : collection) {
 			collectionChaged |= add(entity);
 		}
 		return collectionChaged;
@@ -92,7 +95,7 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 	@Override
 	public boolean removeAll(Collection<?> collection) {
 		boolean collectionChaged = false;
-		for(Object object: collection) {
+		for (Object object : collection) {
 			collectionChaged |= remove(object);
 		}
 		return collectionChaged;
@@ -112,4 +115,5 @@ public class IdentityMap<Entity extends BaseEntity> implements Collection<Entity
 	public void sort(Comparator<Entity> comparator) {
 		entities.sort(comparator);
 	}
+
 }

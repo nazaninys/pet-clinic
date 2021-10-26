@@ -49,7 +49,8 @@ import org.springframework.samples.petclinic.visit.Visit;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-	public Pet() {}
+	public Pet() {
+	}
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -108,20 +109,15 @@ public class Pet extends NamedEntity {
 	}
 
 	public List<Visit> getVisitsBetween(LocalDate start, LocalDate end) {
-		return getVisitsInternal().stream()
-			.filter(visit -> {
-				return visit.getDate().isAfter(start) &&
-					visit.getDate().isBefore(end);
-			})
-			.collect(Collectors.toList());
+		return getVisitsInternal().stream().filter(visit -> {
+			return visit.getDate().isAfter(start) && visit.getDate().isBefore(end);
+		}).collect(Collectors.toList());
 	}
 
 	public List<Visit> getVisitsUntilAge(int age) {
-		return getVisitsInternal().stream()
-			.filter(visit -> {
-				return getBirthDate().until(visit.getDate()).getYears() < age;
-			})
-			.collect(Collectors.toList());
+		return getVisitsInternal().stream().filter(visit -> {
+			return getBirthDate().until(visit.getDate()).getYears() < age;
+		}).collect(Collectors.toList());
 	}
 
 	public void removeVisit(Visit visit) {

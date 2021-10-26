@@ -31,4 +31,5 @@ class SimpleDITest {
 		});
 		assertNotNull(simpleDi.getInstanceOf(PetRepository.class));
 	}
+
 }

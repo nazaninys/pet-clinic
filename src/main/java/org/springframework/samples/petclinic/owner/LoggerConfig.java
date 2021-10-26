@@ -12,4 +12,5 @@ public class LoggerConfig {
 	public Logger getLogger() {
 		return LoggerFactory.getLogger("CRITICAL_LOGGER");
 	}
+
 }

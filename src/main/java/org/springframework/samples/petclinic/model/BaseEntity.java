@@ -51,4 +51,5 @@ public class BaseEntity implements Serializable {
 	public boolean sameId(BaseEntity entity) {
 		return id.equals(entity.getId());
 	}
+
 }
