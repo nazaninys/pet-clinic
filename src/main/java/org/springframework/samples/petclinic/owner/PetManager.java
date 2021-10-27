@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.visit.Visit;
 import org.springframework.stereotype.Service;
-
+import org.mockito.internal.util.reflection.FieldSetter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
