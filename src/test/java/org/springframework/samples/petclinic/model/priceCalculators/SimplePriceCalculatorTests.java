@@ -27,42 +27,42 @@ public class SimplePriceCalculatorTests {
 		calculator = new SimplePriceCalculator();
 	}
 
+	private List<Pet> createPetStub(){
+		List<Pet> petsList = new ArrayList<>();
+		Pet petSpy = spy(Pet.class);
+		petsList.add(petSpy);
+		return petsList;
+	}
+
+	private void setPetRare(boolean isRare, Pet pet) {
+		when(pet.getType()).thenReturn(mock(PetType.class));
+		if (isRare)
+			when(pet.getType().getRare()).thenReturn(true);
+		else
+			when(pet.getType().getRare()).thenReturn(false);
+	}
+
+
 	@Test
-	public void testCalcPrice(){
-		List<Pet> petsList = createPets();
+	public void testCalcPricePetNotRareNotNew(){
+		List<Pet> petsList = createPetStub();
+		setPetRare(false, petsList.get(0));
 		Assert.assertEquals(petsList.size(),1);
 		UserType userType = UserType.GOLD;
 		Assert.assertEquals(20.0,calculator.calcPrice(petsList,10,10,userType),DELTA);
 
 	}
+
 	@Test
 	public void testCalcPriceWithNewUserRarePet(){
-		List<Pet> petsList = createRarePets();
+		List<Pet> petsList = createPetStub();
+		setPetRare(true, petsList.get(0));
 		Assert.assertEquals(petsList.size(),1);
 		UserType userType = UserType.NEW;
 		Assert.assertEquals(20.9,calculator.calcPrice(petsList,10,10,userType),DELTA);
 
 	}
 
-	private List<Pet> createPets(){
-		List<Pet> petsList = new ArrayList<>();
-		Pet petSpy = spy(Pet.class);
-		PetType petType = spy(PetType.class);
-		when(petType.getRare()).thenReturn(false);
-		when(petSpy.getType()).thenReturn(petType);
-		petsList.add(petSpy);
-		return petsList;
-
-	}
-	private List<Pet> createRarePets(){
-		List<Pet> petsList = new ArrayList<>();
-		Pet petSpy = spy(Pet.class);
-		PetType petType = spy(PetType.class);
-		when(petSpy.getType()).thenReturn(petType);
-		petsList.add(petSpy);
-		return petsList;
-
-	}
 
 
 }
