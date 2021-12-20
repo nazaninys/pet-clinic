@@ -37,7 +37,6 @@ public class PriceCalculatorTest {
 		when(visit.getDate()).thenReturn(visitDate);
 		visits.add(visit);
 		when(pet.getVisitsUntilAge(age)).thenReturn(visits);
-
 	}
 
 	private List<Pet> createPetListWithDesiredSize(int size) {
@@ -50,22 +49,23 @@ public class PriceCalculatorTest {
 	}
 
 	@Test
-	public void testNoVisit(){
+	public void testNotInfantPetNoVisitDiscountCounterLessThanMin(){
 		List<Pet> pets = createPetListWithDesiredSize(1);
 		setPetBirthDate(pets.get(0),INFANT_YEARS + 1);
 		Assert.assertEquals(12.0,PriceCalculator.calcPrice(pets,10.0,10.0),DELTA);
-
 	}
+
 	@Test
-	public void testNoVisitNotInfant(){
+	public void testNoVisitNotInfantDiscountCounterEqMin(){
 		List<Pet> pets = createPetListWithDesiredSize(10);
 		for(Pet pet:pets){
 			setPetBirthDate(pet,INFANT_YEARS + 1);
 		}
 		Assert.assertEquals(238,PriceCalculator.calcPrice(pets,10.0,10.0),DELTA);
 	}
+
 	@Test
-	public void testVisitInfantBoundary(){
+	public void testVisitInfantBoundaryOnlyOneVisit(){
 		List<Pet> pets = createPetListWithDesiredSize(6);
 		for(Pet pet:pets){
 			setPetBirthDate(pet,INFANT_YEARS);
